@@ -5,7 +5,7 @@ import {url} from '../../utils/constants'
 //async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ( {navigator} ) => {
+const Login = ( {navigation} ) => {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -28,12 +28,13 @@ const Login = ( {navigator} ) => {
     fetch(`${url}/Login`,{
         method: 'POST',
         headers :{
-            'Content-type' : 'application/json'
+            'Content-Type' : 'application/json'
         },
         body : JSON.stringify(corpo),
     })
     .then(response => response.json())
     .then(data => {
+      console.log(data)
       if(data.status !== 404){
         alert('seja bem vindo');
         console.log(data.token);
@@ -43,9 +44,15 @@ const Login = ( {navigator} ) => {
         alert('email ou senha invalidos!')
       }
     })
+    .catch(erro => console.log(erro))
   }
     return(
         <View style={styles.container} >
+
+            <Text style={styles.title}>Edux</Text>
+
+            <Text style={styles.text}>LOGIN</Text>
+
             <TextInput
                 style={styles.imput}
                 onChangeText={text => setEmail(text)}
@@ -74,14 +81,16 @@ const Login = ( {navigator} ) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#8404D9',
       alignItems: 'center',
       justifyContent: 'center',
     },
     imput : {
         width: '90%',
         height: 40,
-        borderColor: '#8404D9',
+        backgroundColor: 'white',
+        borderColor: 'white',
+        color: '#8404D9',
         borderWidth: 1,
         marginTop: 20,
         padding: 6,
@@ -91,14 +100,26 @@ const styles = StyleSheet.create({
       height: 40,
       width: '90%',
       padding: 6,
-      backgroundColor: '#8404D9',
+      backgroundColor: 'white',
       borderRadius: 5,
-      marginTop: 10,
+      marginTop: 20,
       justifyContent: 'center',
       alignItems: 'center',
     },
     textButton : {
+      fontFamily: 'Arial Black',
+      color : '#8404D9',
+      fontSize : 20
+    },
+    title : {
       color : 'white',
+      fontSize: 60,
+      fontFamily: "Arial Black"
+    },
+    text: {
+      color: 'white',
+      fontSize: 20,
+      fontFamily: "Arial"
     }
   });
 
