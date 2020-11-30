@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import {url} from '../../utils/constants'
 
 //async storage
@@ -35,18 +35,25 @@ const Login = ( {navigation} ) => {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      if(data.status !== 404){
-        alert('seja bem vindo');
+      if(data.token !== null || data.token !== undefined || data.token !== ''){
+
+        alert("Seja bem vindo(a)!");
         console.log(data.token);
         salvar(data.token);
         navigation.push('Autenticado');
+
       }else{
-        alert('email ou senha invalidos!')
+        alert("Email ou senha inválidos :( ");
       }
     })
     .catch(erro => console.log(erro))
   }
     return(
+
+      <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
         <View style={styles.container} >
 
             <Text style={styles.title}>Edux</Text>
@@ -75,6 +82,8 @@ const Login = ( {navigation} ) => {
                 <Text style={styles.textButton}>Entrar</Text>
             </TouchableOpacity>
         </View>
+
+        </KeyboardAvoidingView>
     )
 }
 

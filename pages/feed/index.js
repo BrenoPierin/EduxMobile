@@ -1,14 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image,  } from 'react-native';
 import {url} from '../../utils/constants'
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Feed = () => {
     const [texto, setTexto] = useState('');
     const [idDica, setIdDica] = useState(0);
-    const [imagem, setImagem] = useState();
+    const [imagem, setImagem] = useState('');
     const [urlImagem, setUrlImagem] = useState('');
-    const [idUsuario, setIdUsuario] = (0);
+    //const [idUsuario, setIdUsuario] = (0);
     const [usuario, setUsuario] = useState([]);
     const [post, setPosts] = useState([]);
 
@@ -65,23 +67,9 @@ const Feed = () => {
   }
 
 
-      const renderItem = ({ item }) => (
-          <Item nome={item.usuario.nome}  textos={item.texto} imagem={item.urlImagem} />
-        );
-    
-  return (
-      <View>
-          <Text>TIMELINE</Text>
-          <Image source={{uri:'https://raw.githubusercontent.com/sena-code/Edux-react/main/src/assets/img/logo_2.png'}} style={{width : 250, height: 250, alignItems : "center"}}/>
-  <Text>{texto}</Text>
-  
-           <FlatList 
-              data={post}
-              keyExtractor={item => item.id}
-              renderItem={renderItem}
-          />
-      </View>
-  )
+    const renderItem = ({ item }) => (
+      <Item nome={item.usuario.nome}  textos={item.texto} imagem={item.urlImagem} />
+    );
 
     const Enviar = () => {
     
@@ -92,7 +80,7 @@ const Feed = () => {
           texto : texto,
           imagem : imagem,
           urlImagem : urlImagem,
-          idUsuario : idUsuario
+          //idUsuario : idUsuario
         },
         headers :{
           'content-type' : 'application/json',
@@ -104,7 +92,7 @@ const Feed = () => {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Postagens</Text>
+        <Text style={styles.title}>POSTAGENS</Text>
 
         <TextInput
           style={styles.input}
@@ -112,12 +100,24 @@ const Feed = () => {
           value={texto}TextInput
           placeholder="Qual sua dica para hoje?"
         />
+
+        <View style={styles.buttonContainer}>
+
         <TouchableOpacity
-          style={styles.button}
+          style={styles.buttonImg}
+          onPress={Enviar}
+        >
+          <Text style={styles.textImg}>Selecionar imagem</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.buttonEnviar}
           onPress={Enviar}
         >
           <Text style={styles.text}>Enviar!</Text>
         </TouchableOpacity>
+
+        </View>
 
           <Text>TIMELINE</Text>
           <Image source={{uri:'https://raw.githubusercontent.com/sena-code/Edux-react/main/src/assets/img/logo_2.png'}} style={{width : 250, height: 250, alignItems : "center"}}/>
@@ -142,7 +142,9 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 15,
       marginTop: 15,
+      fontFamily: 'Arial Black',
       textAlign: "center",
+      color: '#8404D9',
     },
     input: {
       height: 40,
@@ -151,21 +153,36 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderRadius: 5,
       padding: 6,
-      marginTop: 50
+      marginTop: 15
     },
-    button: {
+    buttonEnviar: {
       height: 40,
-      width: '90%',
+      width: '65%',
       padding: 6,
-      backgroundColor: '#8404D9',
+      backgroundColor: '#04D94F',
       borderRadius: 5,
       marginTop: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
+      textAlign: 'center',
+      justifyContent: 'center'
+    },
+    buttonImg: {
+      height: 40,
+      width: '65%',
+      padding: 6,
+      backgroundColor: 'gray',
+      borderRadius: 5,
+      marginTop: 10,
+      marginRight: 5,
+      textAlign: 'center',
+      justifyContent: 'center'
     },
     text: {
       color: 'white',
-      fontSize: 0
+      fontSize: 20,
+    },
+    textImg: {
+      color: 'white',
+      fontSize: 15,
     },
     item:{
       margin:10,
@@ -176,6 +193,12 @@ const styles = StyleSheet.create({
       alignSelf:"center",
       flexDirection:"row",
       borderRadius:5
+  },
+  buttonContainer: {
+    padding: 6,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   }
   });
 

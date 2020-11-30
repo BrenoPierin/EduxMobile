@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 //Paginas importadas
 import Feed from "./pages/feed"
 import Login from "./pages/login"
+import Dicas from "./pages/dicas"
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,7 +19,6 @@ const Autenticado = () => {
     //mudar o initial route name de "Feed" para "Home"
     <Drawer.Navigator initialRouteName="Feed">
       <Drawer.Screen name="Feed" component={Feed} />
-
     </Drawer.Navigator>
   )
 }
@@ -26,8 +26,8 @@ const Autenticado = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown : false}}>
-        <Stack.Screen name="Login" component={Login} />
+     <Stack.Navigator screenOptions={{ headerShown : false}}>
+        <Stack.Screen name="Login" component={Feed} />
         <Stack.Screen name="Autenticado" component={Autenticado} />
       </Stack.Navigator>
     </NavigationContainer>
