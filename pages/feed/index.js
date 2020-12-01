@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image,  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image, Platform  } from 'react-native';
 import {url} from '../../utils/constants'
+import jwt_decode from "jwt-decode";
+import * as ImagePicker from 'expo-image-picker';
+//(https://www.npmjs.com/package/jwt-decode) decode
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -20,20 +23,20 @@ const Feed = () => {
   }, [])
 
    const listarUsuario = () => {
-      fetch(`${url}/Usuario`)
+      fetch(`${url}Usuario`)
       .then(response => response.json())
       .then(dados => {
           console.log(dados);
           setUsuario(dados);
           
-          limparCampo();
+          //limparCampo();
       })
       .catch(err => console.error(err));
     }
 
 
     const listarPost = () => {
-      fetch(`${url}/Post`, {
+      fetch(`${url}Post`, {
           headers : {
               'authorization' : 'Bearer ' + AsyncStorage.getItem('token')
           }
@@ -65,28 +68,65 @@ const Feed = () => {
  
       )
   }
-
+  
 
     const renderItem = ({ item }) => (
       <Item nome={item.usuario.nome}  textos={item.texto} imagem={item.urlImagem} />
     );
-
-    const Enviar = () => {
     
-      fetch(url + "/Dicas",{
+
+    // Parte do Breno https://docs.expo.io/tutorial/image-picker/ ---------------------------------------------------------------------------------------------
+    const Enviar = () => {
+
+      const post = {
+        idDIca: idDica,
+        text: texto,
+        imagem: imagem,
+        urlImagem: urlImagem
+      }
+    
+      fetch( url + "Dicas",{
         method: 'POST',
-        body : {
-          idDica : idDica,
-          texto : texto,
-          imagem : imagem,
-          urlImagem : urlImagem,
-          //idUsuario : idUsuario
-        },
         headers :{
           'content-type' : 'application/json',
-          'authorization' : 'Bearer ' 
-        }
+          'authorization' : 'Bearer ' + AsyncStorage.getItem('@jwt')
+        },
+        body : JSON.stringify(post),
       })
+
+    }
+
+    const selectImg = ({openImagePickerAsync}) => {
+      
+      let openImagePickerAsync = async () => {
+        let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+    
+        if (permissionResult.granted === false) {
+          alert("Permission to access camera roll is required!");
+          return;
+        }
+    
+        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+        console.log(pickerResult);
+      }
+
+      if (pickerResult.cancelled === true) {
+        return;
+      }
+
+      setImagem({ localUri: pickerResult.uri });
+    };
+
+    if (imagem !== null) {
+      return (
+        <View style={styles.container}>
+          <Image
+            source={{ uri: imagem.localUri }}
+            style={styles.thumbnail}
+          />
+        </View>
+      );
+    }
 
     }
 
@@ -105,7 +145,7 @@ const Feed = () => {
 
         <TouchableOpacity
           style={styles.buttonImg}
-          onPress={Enviar}
+          onPress={selectImg}
         >
           <Text style={styles.textImg}>Selecionar imagem</Text>
         </TouchableOpacity>

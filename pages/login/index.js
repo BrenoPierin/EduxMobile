@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import {url} from '../../utils/constants'
 
 //async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ( {navigation} ) => {
+const Login = ({ navigation }) => {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -20,12 +20,13 @@ const Login = ( {navigation} ) => {
 
   const Logar = () => {
 
-    const corpo = {
+    const corpo = 
+    {
         email: email,
         senha : senha
     }
       
-    fetch(`${url}/Login`,{
+    fetch(`${url}login`,{
         method: 'POST',
         headers :{
             'Content-Type' : 'application/json'
@@ -35,12 +36,10 @@ const Login = ( {navigation} ) => {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      if(data.token !== null || data.token !== undefined || data.token !== ''){
+      if (data.status != 404) {
 
-        alert("Seja bem vindo(a)!");
-        console.log(data.token);
         salvar(data.token);
-        navigation.push('Autenticado');
+        navigation.navigate('Autenticado');
 
       }else{
         alert("Email ou senha inválidos :( ");
