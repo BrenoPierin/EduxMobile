@@ -18,6 +18,10 @@ const Login = ({ navigation }) => {
     }
   }
 
+  // if(AsyncStorage.setItem('@jwt') != null){
+  //   navigation.navigate('Autenticado')
+  // }
+
   const Logar = () => {
 
     const corpo = 
