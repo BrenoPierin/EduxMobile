@@ -4,43 +4,48 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image, P
 import {url} from '../../utils/constants'
 import jwt_decode from "jwt-decode";
 import * as ImagePicker from 'expo-image-picker';
-import Header from '../../components/header'
 //(https://www.npmjs.com/package/jwt-decode) decode
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Feed = () => {
+    const [idUsuario, setIdUsuario] = useState(0);
     const [texto, setTexto] = useState('');
-    const [idDica, setIdDica] = useState(0);
     const [imagem, setImagem] = useState('');
-    const [urlImagem, setUrlImagem] = useState('');
-    //const [idUsuario, setIdUsuario] = (0);
-    const [usuario, setUsuario] = useState([]);
-    const [post, setPosts] = useState([]);
+    const [token, setToken] = useState('')
+
+    useEffect(()=>{
+
+      AsyncStorage.getItem('@jwt').then(data => {
+          var token = data;
+          var decoded = jwt_decode(data);
+          setIdUsuario(decoded.jti);
+          setToken(token)
+
+      })
+
+    }, [])
 
     // Parte do Breno https://docs.expo.io/tutorial/image-picker/ ---------------------------------------------------------------------------------------------
     const Enviar = () => {
 
       const post = {
-        idDIca: idDica,
-        text: texto,
-        imagem: imagem,
-        urlImagem: urlImagem
-      }
+        "texto": texto,
+        "idUsuario": 1,
+        "imagem": imagem,
+      } 
     
       fetch( url + "Dicas",{
         method: 'POST',
         headers :{
           'content-type' : 'application/json',
-          'authorization' : 'Bearer ' + AsyncStorage.getItem('@jwt')
+          'authorization' : `Bearer ${token}`
         },
         body : JSON.stringify(post),
       })
 
     }
 
-    const selectImg = () => {
-      
       let openImagePickerAsync = async () => {
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
     
@@ -50,31 +55,18 @@ const Feed = () => {
         }
     
         let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        console.log(pickerResult);
-      }
 
       if (pickerResult.cancelled === true) {
         return;
       }
-
-      setImagem({ localUri: pickerResult.uri });
+  
+      setImagem(pickerResult.uri);
     };
-
-    if (imagem !== null) {
-      return (
-        <View style={styles.container}>
-          <Image
-            source={{ uri: imagem.localUri }}
-            style={styles.thumbnail}
-          />
-        </View>
-      );
-    }
+  
+    
 
     return (
       <View style={styles.container}>
-
-        <View component={Header}/>
 
         <Text style={styles.title}>POSTAGENS</Text>
 
@@ -89,7 +81,7 @@ const Feed = () => {
 
         <TouchableOpacity
           style={styles.buttonImg}
-          onPress={selectImg}
+          onPress={openImagePickerAsync}
         >
           <Text style={styles.textImg}>Selecionar imagem</Text>
         </TouchableOpacity>
@@ -100,7 +92,6 @@ const Feed = () => {
         >
           <Text style={styles.text}>Enviar!</Text>
         </TouchableOpacity>
-
         </View>
       </View>
       
