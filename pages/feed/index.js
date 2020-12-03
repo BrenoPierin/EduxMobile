@@ -30,9 +30,9 @@ const Feed = () => {
     const Enviar = () => {
 
       const post = {
-        "texto": texto,
-        "idUsuario": 1,
-        "imagem": imagem,
+        texto: texto,
+        idUsuario: 1,
+        imagem: "",
       } 
     
       fetch( url + "Dicas",{

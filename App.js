@@ -6,7 +6,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 //Paginas importadas
 import Feed from "./pages/feed"
 import Login from "./pages/login"
-import Dicas from "./pages/dicas"
+//import Dicas from "./pages/dicas"
+//import Home from "./pages/home"
+//import Timeline from "./pages/timeline"
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,9 +24,11 @@ const Stack = createStackNavigator();
 const Autenticado = ({navigation}) => {
   return(
     //mudar o initial route name de "Feed" para "Home"
-    <Drawer.Navigator initialRouteName="Feed">
+    <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen name="Feed" component={Feed} />
       <Drawer.Screen name="Login" component={Login} />
+      {/* <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Timeline" component={Timeline} /> */}
       
     </Drawer.Navigator>
   )
