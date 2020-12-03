@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, Text, KeyboardAvoidingView, Platform, View, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { url } from '../../utils/constants';
+import Cabecalho from '../../components/Cabecalho';
 
 import {ItemPost} from '../../components/itemPost/itemPost'
 
