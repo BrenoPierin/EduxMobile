@@ -25,7 +25,7 @@ const Home = () => {
                     </div>
                     <div>
                         <h3>
-                            Tiago de Castro
+                            Samuel Severo Cohen
                         </h3>
                         <p>
                             Dev
