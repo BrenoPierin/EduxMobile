@@ -31,8 +31,8 @@ const Feed = () => {
 
       const post = {
         texto: texto,
-        idUsuario: 1,
-        imagem: "",
+        idUsuario: idUsuario,
+        imagem: imagem,
       } 
     
       fetch( url + "Dicas",{
