@@ -1,7 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image,  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image, Platform  } from 'react-native';
 import {url} from '../../utils/constants'
+import jwt_decode from "jwt-decode";
+import * as ImagePicker from 'expo-image-picker';
+import Header from '../../components/header'
+//(https://www.npmjs.com/package/jwt-decode) decode
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -14,84 +18,64 @@ const Feed = () => {
     const [usuario, setUsuario] = useState([]);
     const [post, setPosts] = useState([]);
 
-    useEffect(() => {
-      listarPost();
-      listarUsuario();
-  }, [])
-
-   const listarUsuario = () => {
-      fetch(`${url}/Usuario`)
-      .then(response => response.json())
-      .then(dados => {
-          console.log(dados);
-          setUsuario(dados);
-          
-          limparCampo();
-      })
-      .catch(err => console.error(err));
-    }
-
-
-    const listarPost = () => {
-      fetch(`${url}/Post`, {
-          headers : {
-              'authorization' : 'Bearer ' + AsyncStorage.getItem('token')
-          }
-      })
-      .then(response => response.json())
-      .then(dados => {
-        console.log(dados.data);
-          setPosts(dados.data);
-          
-
-      })
-      .catch(err => console.error(err));
-    }
-
-    const Item = (post) => {
-      const {nome, textos, imagem} = post;
-      return (
-          <View style={styles.item} >
-             
-      <View >
-      <Text style={{fontWeight:"bold", flex: 20, color : "white"}}>{nome}</Text>
-      </View>
-      <View>
-      <Text style={{color: "white",  justifyContent:"center",alignItems:"center", paddingLeft: 40}}>{  textos}</Text>
-      </View>
-      <Image source={{uri:imagem}}  style={{width:300, height:300, borderRadius:30}} />
-  
-  </View>
- 
-      )
-  }
-
-
-    const renderItem = ({ item }) => (
-      <Item nome={item.usuario.nome}  textos={item.texto} imagem={item.urlImagem} />
-    );
-
+    // Parte do Breno https://docs.expo.io/tutorial/image-picker/ ---------------------------------------------------------------------------------------------
     const Enviar = () => {
+
+      const post = {
+        idDIca: idDica,
+        text: texto,
+        imagem: imagem,
+        urlImagem: urlImagem
+      }
     
-      fetch(url + "/Dicas",{
+      fetch( url + "Dicas",{
         method: 'POST',
-        body : {
-          idDica : idDica,
-          texto : texto,
-          imagem : imagem,
-          urlImagem : urlImagem,
-          //idUsuario : idUsuario
-        },
         headers :{
           'content-type' : 'application/json',
-          'authorization' : 'Bearer ' 
-        }
+          'authorization' : 'Bearer ' + AsyncStorage.getItem('@jwt')
+        },
+        body : JSON.stringify(post),
       })
 
+    }
+
+    const selectImg = () => {
+      
+      let openImagePickerAsync = async () => {
+        let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+    
+        if (permissionResult.granted === false) {
+          alert("Permission to access camera roll is required!");
+          return;
+        }
+    
+        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+        console.log(pickerResult);
+      }
+
+      if (pickerResult.cancelled === true) {
+        return;
+      }
+
+      setImagem({ localUri: pickerResult.uri });
+    };
+
+    if (imagem !== null) {
+      return (
+        <View style={styles.container}>
+          <Image
+            source={{ uri: imagem.localUri }}
+            style={styles.thumbnail}
+          />
+        </View>
+      );
     }
 
     return (
       <View style={styles.container}>
+
+        <View component={Header}/>
+
         <Text style={styles.title}>POSTAGENS</Text>
 
         <TextInput
@@ -105,7 +89,7 @@ const Feed = () => {
 
         <TouchableOpacity
           style={styles.buttonImg}
-          onPress={Enviar}
+          onPress={selectImg}
         >
           <Text style={styles.textImg}>Selecionar imagem</Text>
         </TouchableOpacity>
@@ -118,16 +102,6 @@ const Feed = () => {
         </TouchableOpacity>
 
         </View>
-
-          <Text>TIMELINE</Text>
-          <Image source={{uri:'https://raw.githubusercontent.com/sena-code/Edux-react/main/src/assets/img/logo_2.png'}} style={{width : 250, height: 250, alignItems : "center"}}/>
-          <Text>{texto}</Text>
-  
-           <FlatList 
-              data={post}
-              keyExtractor={item => item.id}
-              renderItem={renderItem}
-          />
       </View>
       
     );
