@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import Cabecalho from '../../components/Cabecalho';
-import './index.css';
 
 const Home = () => {
 
@@ -73,13 +72,13 @@ const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: "bold",
       textAlign: "center",
-      marginTop: "1.5em",
+      marginTop: 10,
     //   backgroundColor: "#D6D6D6"
     },
     imagemCard: {
-        width: '3.5em',
-        height: '3.5em',
-        borderRadius: '4em',
+        width: 20,
+        height: 25,
+        borderRadius: 5,
       },
   });
 

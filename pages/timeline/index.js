@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, Text, KeyboardAvoidingView, Platform, View, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { url } from '../../utils/constants';
 import Cabecalho from '../../components/Cabecalho';
-
-import {ItemPost} from '../../components/itemPost/itemPost'
+import {ItemPost} from '../../components/itempost/'
 
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -167,8 +166,6 @@ const TimeLine = ({navigation}) => {
 
 }
 
-export default TimeLine;
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -185,4 +182,5 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         borderRadius:5
     }
-  });
+});
+export default TimeLine;

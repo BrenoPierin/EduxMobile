@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
 import Cabecalho from '../../components/Cabecalho';
-import './index.css'
 
 const DATA = [
     {
@@ -77,27 +76,28 @@ const styles = StyleSheet.create({
     },
     text: {
       color: "#9200D6",
-      fontSize: 30,
+      fontSize: 10,
       fontWeight: "bold",
       textAlign: "center",
-      marginTop: "1.5em",
+      marginTop: 5,
     //   backgroundColor: "#D6D6D6"
     },
     imagemCard: {
-        width: '3.5em',
-        height: '3.5em',
-        borderRadius: '4em',
+        width: 20,
+        height: 20,
+        borderRadius: 5,
     },
     margemE: {
-        marginLeft: '0.3em',
-        marginTop: '0.2em',
+        marginLeft: 10,
+        marginTop: 10,
     },
     logo: {
         width: '90%',
         height: 100,
         margin: 'auto',
-        marginBottom: '1em',
-        borderRadius: '2em',
+        marginBottom: 5,
+        borderRadius: 5,
+        
       },
   });
 
