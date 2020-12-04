@@ -42,7 +42,14 @@ const Feed = () => {
           'authorization' : `Bearer ${token}`
         },
         body : JSON.stringify(post),
-      })
+      }).then((response) => {
+        if (response.ok) {
+          console.log(response.json());
+  
+          alert("Usuario cadastrado.");
+          history.push("/")
+        }
+      });
 
     }
 
