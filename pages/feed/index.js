@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Feed = () => {
     const [idUsuario, setIdUsuario] = useState(0);
     const [texto, setTexto] = useState('');
-    const [imagem, setImagem] = useState('');
+    const [imagem, setImagem] = useState({});
     const [token, setToken] = useState('')
 
     useEffect(()=>{
@@ -27,6 +27,32 @@ const Feed = () => {
     }, [])
 
     // Parte do Breno https://docs.expo.io/tutorial/image-picker/ ---------------------------------------------------------------------------------------------
+    
+    function b64toBlob(b64Data, contentType, sliceSize) {
+      contentType = contentType || '';
+      sliceSize = sliceSize || 512;
+
+      var byteCharacters = atob(b64Data);
+      var byteArrays = [];
+
+      for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+          var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+          var byteNumbers = new Array(slice.length);
+          for (var i = 0; i < slice.length; i++) {
+              byteNumbers[i] = slice.charCodeAt(i);
+          }
+
+          var byteArray = new Uint8Array(byteNumbers);
+
+          byteArrays.push(byteArray);
+      }
+
+      var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+    }
+
+
     const Enviar = () => {
 
       const post = {
@@ -34,7 +60,7 @@ const Feed = () => {
         idUsuario: idUsuario,
         imagem: imagem,
       } 
-    
+      
       fetch( url + "Dicas",{
         method: 'POST',
         headers :{
@@ -49,28 +75,51 @@ const Feed = () => {
         }
       })
       .catch(err => console.error(err))
-
+      
     }
-
-      let openImagePickerAsync = async () => {
-        let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
     
-        if (permissionResult.granted === false) {
-          alert("Permission to access camera roll is required!");
-          return;
-        }
-    
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
-
+    let openImagePickerAsync = async () => {
+      let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+      
+      if (permissionResult.granted === false) {
+        alert("Permission to access camera roll is required!");
+        return;
+      }
+      
+      let pickerResult = await ImagePicker.launchImageLibraryAsync();
+      
       if (pickerResult.cancelled === true) {
         return;
       }
-  
-      setImagem(pickerResult.uri);
-    };
-  
-    
+      
 
+      // <form id="myAwesomeForm" method="post" action="/php-code-that-handles-fileupload.php">
+      //     <input type="text" id="filename" name="filename" />
+      //     <input type="submit" id="submitButton" name="submitButton" />
+      // </form>
+      
+      //     // Get the form element withot jQuery
+      // var form = document.getElementById("myAwesomeForm");
+      
+      var ImageURL = pickerResult.uri ;
+      // Split the base64 string in data and contentType
+      var block = ImageURL.split(";");
+      // Get the content type of the image
+      var contentType = block[0].split(":")[1];// In this case "image/gif"
+      // get the real base64 content of the file
+      var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...."
+      
+      // Convert it to a blob to upload
+      var blob = b64toBlob(realData, contentType);
+
+      console.log(blob);
+
+      setImagem(realData);
+
+    };
+    
+    
+    
     return (
       <View style={styles.container}>
 
