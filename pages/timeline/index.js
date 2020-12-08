@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, Text, KeyboardAvoidingView, Platform, View, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { url } from '../../utils/constants';
-import Cabecalho from '../../components/Cabecalho';
 import {ItemPost} from '../../components/itempost/'
 
 
@@ -28,7 +27,7 @@ const TimeLine = ({navigation}) => {
   }, [])
 
    const listarUsuario = () => {
-      fetch(`${url}/Usuario`)
+      fetch(`${url}Usuario`)
       .then(response => response.json())
       .then(dados => {
           console.log(dados);
@@ -41,7 +40,7 @@ const TimeLine = ({navigation}) => {
 
 
     const listarPost = () => {
-      fetch(`${url}/Post`, {
+      fetch(`${url}Dicas`, {
           headers : {
               'authorization' : 'Bearer ' + AsyncStorage.getItem('token')
           }
@@ -147,7 +146,7 @@ const TimeLine = ({navigation}) => {
 
 
         const renderItem = ({ item }) => (
-            <Item nome={item.usuario.nome}  textos={item.texto} imagem={item.urlImagem} />
+            <Item nome={item.usuario.nameid}  textos={item.texto} imagem={item.urlImagem} />
           );
       
     return (

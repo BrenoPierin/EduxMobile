@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import {url} from '../../utils/constants'
 
@@ -18,10 +18,15 @@ const Login = ({ navigation }) => {
     }
   }
 
-  // if(AsyncStorage.setItem('@jwt') != null){
-  //   navigation.navigate('Autenticado')
-  // }
+  useEffect(()=>{
+    verificado()
+  }, [])
 
+  const verificado = () => {
+    if(AsyncStorage.getItem('@jwt').exists ){
+      navigation.navigate("Home")
+    }
+  }
   const Logar = () => {
 
     const corpo = 
@@ -40,10 +45,10 @@ const Login = ({ navigation }) => {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      if (data.status != 404) {
-
+      if (data.status != 401) {
+        alert('seja bem vindo');
         salvar(data.token);
-        navigation.navigate('Autenticado');
+        navigation.navigate('Home');
 
       }else{
         alert("Email ou senha inválidos :( ");

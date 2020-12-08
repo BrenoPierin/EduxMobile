@@ -1,85 +1,76 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
-import Cabecalho from '../../components/Cabecalho';
-
 const Home = () => {
 
-    const image = { uri: "https://reactjs.org/logo-og.png" };
+    const imagem = { uri: "https://reactjs.org/logo-og.png" };
 
     return(
         <View>
-            <Cabecalho />
-            <Text style={styles.text}>RANKING GERAL</Text>
-            <div className="container">
+            <Text style={styles.title}>RANKING GERAL</Text>
+            
+            <View style={styles.firstContainer}>
+                <Text style={styles.name}>Breno Silva Pierin</Text>
+                <Text style={styles.turma}>2° Deselvolvimento de sistemas</Text>
+                {/* <Image style={styles.img}>{imagem}</Image> */}            
+            </View>
 
-                <div className="cardRanking">
-                    <div>
-                        <Image
-                            style={styles.imagemCard}
-                            source={{
-                            uri:
-                                'https://lh3.googleusercontent.com/ogw/ADGmqu8hLGlCrPvhctADQyUHlvLIBN2biYe3EGLyAqwKcg=s83-c-mo',
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <h3>
-                            Samuel Severo Cohen
-                        </h3>
-                        <p>
-                            Dev
-                        </p>
-                    </div>
-                </div>
-
-                <div className="centro">
-                    <div className="bola vermelha">
-                        <p className="letra">Bola 1</p>
-                    </div>
-
-                    <div className="flex">
-                        <div className="bola amarela">
-                            <p className="letra">Bola 2</p>
-                        </div>
-
-                        <div className="bola verde margem">
-                            <p className="letra">Bola 3</p>
-                        </div>
-                    </div>
-                    
-                    <div className="bola azul">
-                        <p className="letra">Bola 4</p>
-                    </div>
-                </div>
-            </div>
+            <View style={styles.bouble1}>
+                <View>
+                    <Text style={styles.boubleText1}>1°</Text>
+                    <Text style={styles.boubleText2}>40</Text>
+                    <Text style={styles.boubleText3}>Objetivos</Text>
+                    <Text style={styles.boubleText4}>Concluidos</Text>
+                </View>
+            </View>
         </View>
     )
 
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: "column"
+    title: {
+      fontSize: 15,
+      marginTop: 15,
+      fontFamily: 'Arial Black',
+      textAlign: "center",
+      color: '#8404D9',
+    },
+    firstContainer: {
+      height: 50,
+      width: '90%',
+      backgroundColor: '#8404D9',
+      borderRadius: 50,
+      flexDirection: "column",
+      marginLeft: "5%",
+      marginTop: 10
     },
     image: {
       flex: 1,
       resizeMode: "cover",
       justifyContent: "center"
     },
-    text: {
-      color: "#9200D6",
-      fontSize: 30,
-      fontWeight: "bold",
+    name: {
+      fontSize: 15,
       textAlign: "center",
-      marginTop: 10,
-    //   backgroundColor: "#D6D6D6"
+      justifyContent: 'center',
+      fontFamily: 'Arial Black',
+      color: 'white',
+      marginLeft: '20%',
+      padding: 5
     },
     imagemCard: {
         width: 20,
         height: 25,
         borderRadius: 5,
       },
+      turma: {
+          fontFamily: 'Arial',
+          fontSize: 10,
+          textAlign: "center",
+          justifyContent: 'center',
+          color: 'white',
+          marginLeft: '20%',
+      }
   });
 
 export default Home;

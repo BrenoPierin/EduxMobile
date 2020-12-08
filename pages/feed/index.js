@@ -42,14 +42,13 @@ const Feed = () => {
           'authorization' : `Bearer ${token}`
         },
         body : JSON.stringify(post),
-      }).then((response) => {
-        if (response.ok) {
-          console.log(response.json());
-  
-          alert("Usuario cadastrado.");
-          history.push("/")
+      }).then((response) => console.log(response.json()))
+      .then(data => {
+        if(data.status === 200){
+          alert('Post enviado!')
         }
-      });
+      })
+      .catch(err => console.error(err))
 
     }
 

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 
 
 //Paginas importadas
@@ -30,11 +30,22 @@ const Autenticado = ({navigation}) => {
       <Drawer.Screen name="Feed" component={Feed} />
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="Home" component={Home}/>
-      {/*<Drawer.Screen name="Aluno" component={Aluno}/>
-        />
-      <Drawer.Screen name="Timeline" component={Timeline} /> */}
+      {/* <Drawer.Screen name="Aluno" component={Aluno}/> */}
+      {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
       
     </Drawer.Navigator>
+  )
+}
+
+const Logout = ({navigation}) => {
+  return(
+    <View>
+      <Text>Deseja realmente sair?</Text>
+      <Button onPress={() => {
+        AsyncStorage.removeItem('@jwt');
+        navigation.push('Login');
+      }} title="SAIR"></Button>
+    </View>
   )
 }
 
@@ -58,9 +69,9 @@ export default function App( {navigation} ) {
         headerRight: () => (
           <View>
             <TouchableOpacity
-              onPress={() => {
+              onPress={()=>{
                 AsyncStorage.removeItem('@jwt');
-                navigation.navigate('Login');
+                // navigation.navigate('Login');
               }}
               style={{ marginRight: 20 }}
               underlayColor={"#8404D9"}
@@ -70,8 +81,11 @@ export default function App( {navigation} ) {
           </View>
         )
       }} >
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false, drawerLabel: "" }} />
-        <Stack.Screen name="Autenticado" component={Autenticado} />
+        <Drawer.Screen name="Login" component={Login} options={{ headerShown: true, drawerLabel: "Login" }} />
+        <Drawer.Screen name="Feed" component={Feed} />
+        <Drawer.Screen name="Home" component={Home}/>
+        <Drawer.Screen name="Logout" component={Logout}/>
+        {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
       </Drawer.Navigator>
     </NavigationContainer>
   );

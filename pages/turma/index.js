@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
-import Cabecalho from '../../components/Cabecalho';
 
 const DATA = [
     {
@@ -31,7 +30,6 @@ const Turma = () => {
     
     return(
         <View>
-            <Cabecalho />
             <Text style={styles.text}>Turma</Text>
 
             <div className="container">
