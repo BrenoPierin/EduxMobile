@@ -5,6 +5,7 @@ import {url} from '../../utils/constants'
 import jwt_decode from "jwt-decode";
 import * as ImagePicker from 'expo-image-picker';
 //(https://www.npmjs.com/package/jwt-decode) decode
+//(https://www.npmjs.com/package/axios) axios
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -51,6 +52,8 @@ const Feed = () => {
       var blob = new Blob(byteArrays, {type: contentType});
     return blob;
     }
+
+    const axios = require('axios').default;
 
 
     const Enviar = () => {
