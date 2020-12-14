@@ -19,9 +19,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const Autenticado = ({navigation}) => {
   return(
@@ -34,6 +36,41 @@ const Autenticado = ({navigation}) => {
       {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
       
     </Drawer.Navigator>
+  )
+}
+
+const BottomNavigator = () => {
+  return (
+    <Tab.Navigator initialRouteName="Home"
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'ios-home' : 'ios-home';
+          } else if (route.name === 'Objetivos') {
+            iconName = focused ? 'ios-list-box' : 'ios-list';
+          } else if (route.name === 'Turmas') {
+            iconName = focused ? 'ios-contacts' : 'ios-contacts';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        style: {
+          backgroundColor: '#00D65F',
+          borderStyle: 'solid',
+        },
+        activeTintColor: 'white',
+        inactiveTintColor: '#333',
+        fontFamily: 'Arial Black'
+      }}
+    >
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Turmas" component={Turmas} />
+      <Tab.Screen name="Objetivos" component={Objetivos} />
+    </Tab.Navigator>
   )
 }
 
@@ -85,6 +122,7 @@ export default function App( {navigation} ) {
         <Drawer.Screen name="Feed" component={Feed} />
         <Drawer.Screen name="Home" component={Home}/>
         <Drawer.Screen name="Logout" component={Logout}/>
+        <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{ drawerLabel: "Ranking" }} />
         {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
       </Drawer.Navigator>
     </NavigationContainer>

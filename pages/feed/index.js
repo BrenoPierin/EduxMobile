@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image, Platform  } from 'react-native';
 import {url} from '../../utils/constants'
+import ItemPost from '../../components/itempost'
 import jwt_decode from "jwt-decode";
 import * as ImagePicker from 'expo-image-picker';
 //(https://www.npmjs.com/package/jwt-decode) decode
@@ -14,17 +15,21 @@ const Feed = () => {
     const [texto, setTexto] = useState('');
     const [imagem, setImagem] = useState({});
     const [token, setToken] = useState('')
+    const [usuarios, setUsuario] = useState([])
+    const [id, setId] = useState(0);
+    const [urlImagem, setUrlImagem] = useState('');
+    const [post, setPosts] = useState([]);
 
     useEffect(()=>{
-
+      listarPost();
+      listarUsuario();
       AsyncStorage.getItem('@jwt').then(data => {
           var token = data;
           var decoded = jwt_decode(data);
           setIdUsuario(decoded.jti);
           setToken(token)
 
-      })
-
+      });
     }, [])
 
     // Parte do Breno https://docs.expo.io/tutorial/image-picker/ ---------------------------------------------------------------------------------------------
@@ -58,27 +63,28 @@ const Feed = () => {
 
     const Enviar = () => {
 
-      const post = {
-        texto: texto,
-        idUsuario: idUsuario,
-        imagem: imagem,
-      } 
-      
-      fetch( url + "Dicas",{
-        method: 'POST',
-        headers :{
-          'content-type' : 'application/json',
-          'authorization' : `Bearer ${token}`
-        },
-        body : JSON.stringify(post),
-      }).then((response) => console.log(response.json()))
-      .then(data => {
-        if(data.status === 200){
-          alert('Post enviado!')
-        }
+      const postContent = {
+        texto : texto,
+        imagem : imagem,
+        idUsuario : 1
+      }
+
+      fetch(`https://192.168.0.17:5001/api/Dicas`, {
+        method : 'POST',
+        body : JSON.stringify(postContent),
+        headers : { 'content-Type' : 'application/json' }        
       })
-      .catch(err => console.error(err))
-      
+      .then((response) => {
+        console.log(response)
+        console.log(response.body)                                
+        limparCampo();
+      })
+      .catch((err) => console.error(err))
+    }
+
+    const limparCampo = () => {
+      setTexto('');
+      setUrlImagem({});
     }
     
     let openImagePickerAsync = async () => {
@@ -120,9 +126,45 @@ const Feed = () => {
       setImagem(realData);
 
     };
+
+    // Parte da Listagem ---------------------------------------------------------------------------------------------------
     
-    
-    
+    const listarUsuario = () => {
+      fetch(`${url}Usuario`)
+      .then(response => response.json())
+      .then(dados => {
+          console.log(dados);
+          setUsuario(dados);
+      })
+      .catch(err => console.error(err));
+    }
+
+
+    const listarPost = () => {
+      fetch(`${url}Dicas`, {
+        method : 'GET',
+        headers : {
+          'Content-Type' : 'application/json',
+          'Authorization': 'Bearer ' + token 
+        }
+      })
+      .then(response => response.json())
+      .then(dados => {
+        console.log(dados.data);
+        setPosts(dados.data);
+      })
+      .catch(err => console.error(err));
+    }
+
+    const renderItem = (dica) => {
+      return (
+          <ItemPost 
+              texto={dica.item.texto} 
+              imagem={dica.item.urlImagem}
+          />
+      )
+    }
+            
     return (
       <View style={styles.container}>
 
@@ -151,6 +193,12 @@ const Feed = () => {
           <Text style={styles.text}>Enviar!</Text>
         </TouchableOpacity>
         </View>
+          <FlatList
+              data={post}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              style={styles.postOutside}
+          />
       </View>
       
     );
@@ -207,21 +255,16 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 15,
     },
-    item:{
-      margin:10,
-      padding:10,
-      backgroundColor:"#000",
-      width:"80%",
-      flex:1,
-      alignSelf:"center",
-      flexDirection:"row",
-      borderRadius:5
-  },
   buttonContainer: {
     padding: 6,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+  },
+  postOutside: {
+    borderRadius : 5,
+    borderColor : '#8404D9',
+    marginTop : 20
   }
   });
 
