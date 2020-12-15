@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F7F7F7',
-        marginTop: 60
+        marginTop: 60,
+        height: '50%'
     },
     listItem: {
         margin: 10,
@@ -19,14 +20,13 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         flexDirection: 'row',
         borderRadius: 5,
-        borderWidth: 2,
-        //   borderColor: '#00C2EE' Azul claro
-        //   borderColor: '#341948'
-        borderColor: '#00C2EE'
+        borderWidth: 1,
+        borderColor: '#8404D9'
     },
     descricao: {
         marginTop: 15,
-        color: 'black'
+        color: 'black',
+        fontFamily: 'Arial'
     }
 });
 
@@ -38,12 +38,12 @@ const ItemPost = (dicas) => {
     const image = () => {
         if (imagem === "") {
             return (
-                <Text style={{ alignSelf: 'center', marginTop: 5, fontFamily: 'TitilliumWeb_300Light_Italic' }}>Não há imagem </Text>
+                <Text style={{ textAlign: 'center', marginTop: 5, fontFamily: 'Arial' }}>Não há imagem </Text>
             )
         }
         else {
             return (
-                <Image source={{ uri: imagem }} style={{ width: 294, height: 160, borderRadius: 4 }} />
+                <Image source={{ uri: imagem }} style={{ width: 150 , height: 150, borderRadius: 4, alignSelf: 'center', marginBottom: 7, marginRight: '16%', margin: 0, padding: 0 }} />
             );
         }
     };
@@ -79,7 +79,7 @@ const ItemPost = (dicas) => {
                     </View>
 
                     {/* <Text style={{color:"blue"}}>22/11/2020</Text> */}
-                    <Text style={{ color: "#00C2EE", fontFamily: 'TitilliumWeb_400Regular' }}>{data}</Text>
+                    <Text style={{ color: "#00C2EE", fontFamily: 'Arial', paddingRight : 30 }}>{data}</Text>
                 </View>
             </View>
 

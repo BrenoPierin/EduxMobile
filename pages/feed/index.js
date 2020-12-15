@@ -69,7 +69,7 @@ const Feed = () => {
         idUsuario : 1
       }
 
-      fetch(`https://192.168.0.17:5001/api/Dicas`, {
+      fetch(`${url}Dicas`, {
         method : 'POST',
         body : JSON.stringify(postContent),
         headers : { 'content-Type' : 'application/json' }        
@@ -156,11 +156,13 @@ const Feed = () => {
       .catch(err => console.error(err));
     }
 
+    //para mostrar a img tem q alterar o upload na api p link da api
     const renderItem = (dica) => {
       return (
           <ItemPost 
               texto={dica.item.texto} 
               imagem={dica.item.urlImagem}
+              style={styles.postOutside}
           />
       )
     }
@@ -196,8 +198,7 @@ const Feed = () => {
           <FlatList
               data={post}
               renderItem={renderItem}
-              keyExtractor={item => item.id}
-              style={styles.postOutside}
+              keyExtractor={data => data.id}
           />
       </View>
       
@@ -260,11 +261,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-  },
-  postOutside: {
-    borderRadius : 5,
-    borderColor : '#8404D9',
-    marginTop : 20
   }
   });
 
