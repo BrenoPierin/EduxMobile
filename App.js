@@ -6,11 +6,10 @@ import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 //Paginas importadas
 import Feed from "./pages/feed"
 import Login from "./pages/login"
-import Dicas from "./pages/dicas"
 import Home from "./pages/home"
 import Timeline from "./pages/timeline"
 import Turma from "./pages/turma"
-{/*import Aluno from "./pages/aluno;"*/}
+import Usuarios from "./pages/usuarios"
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,7 +31,7 @@ const Autenticado = ({navigation}) => {
       <Drawer.Screen name="Feed" component={Feed} />
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="Home" component={Home}/>
-      {/* <Drawer.Screen name="Aluno" component={Aluno}/> */}
+      <Drawer.Screen name="Usuarios" component={Usuarios}/>
       {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
       
     </Drawer.Navigator>
@@ -48,9 +47,9 @@ const BottomNavigator = () => {
 
           if (route.name === 'Home') {
             iconName = focused ? 'ios-home' : 'ios-home';
-          } else if (route.name === 'Objetivos') {
+          } else if (route.name === 'Feed') {
             iconName = focused ? 'ios-list-box' : 'ios-list';
-          } else if (route.name === 'Turmas') {
+          } else if (route.name === 'Usuarios') {
             iconName = focused ? 'ios-contacts' : 'ios-contacts';
           }
 
@@ -68,8 +67,8 @@ const BottomNavigator = () => {
       }}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Turmas" component={Turmas} />
-      <Tab.Screen name="Objetivos" component={Objetivos} />
+      <Tab.Screen name="Feed" component={Feed} />
+      <Tab.Screen name="Usuarios" component={Usuarios} />
     </Tab.Navigator>
   )
 }
@@ -103,12 +102,12 @@ export default function App( {navigation} ) {
           borderBottomWidth: 0
         },
         headerLeft: null,
-        headerRight: () => (
+        headerRight: ({ navigation}) => (
           <View>
             <TouchableOpacity
               onPress={()=>{
                 AsyncStorage.removeItem('@jwt');
-                // navigation.navigate('Login');
+                navigation.navigate('Login');
               }}
               style={{ marginRight: 20 }}
               underlayColor={"#8404D9"}
@@ -122,7 +121,7 @@ export default function App( {navigation} ) {
         <Drawer.Screen name="Feed" component={Feed} />
         <Drawer.Screen name="Home" component={Home}/>
         <Drawer.Screen name="Logout" component={Logout}/>
-        <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{ drawerLabel: "Ranking" }} />
+        <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{ drawerLabel: "Logado com Footer" }} />
         {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
       </Drawer.Navigator>
     </NavigationContainer>

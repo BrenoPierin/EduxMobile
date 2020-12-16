@@ -48,7 +48,7 @@ const Login = ({ navigation }) => {
       if (data.status != 401) {
         alert('seja bem vindo');
         salvar(data.token);
-        navigation.navigate('Home');
+        navigation.navigate('BottomNavigator');
 
       }else{
         alert("Email ou senha inválidos :( ");

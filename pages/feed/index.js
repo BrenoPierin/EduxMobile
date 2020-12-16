@@ -162,7 +162,6 @@ const Feed = () => {
           <ItemPost 
               texto={dica.item.texto} 
               imagem={dica.item.urlImagem}
-              style={styles.postOutside}
           />
       )
     }

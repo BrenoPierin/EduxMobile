@@ -9,18 +9,37 @@ const Home = () => {
             <Text style={styles.title}>RANKING GERAL</Text>
             
             <View style={styles.firstContainer}>
+
                 <Text style={styles.name}>Breno Silva Pierin</Text>
                 <Text style={styles.turma}>2° Deselvolvimento de sistemas</Text>
-                {/* <Image style={styles.img}>{imagem}</Image> */}            
+                <Image style={styles.imgRank1} source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png' }} />            
             </View>
 
-            <View style={styles.bouble1}>
-                <View>
-                    <Text style={styles.boubleText1}>1°</Text>
-                    <Text style={styles.boubleText2}>40</Text>
-                    <Text style={styles.boubleText3}>Objetivos</Text>
-                    <Text style={styles.boubleText4}>Concluidos</Text>
-                </View>
+            <View style={styles.bouble}>
+              <View style={styles.boubleRank1}>
+                    <Text style={styles.boubleTitle}>1°</Text>
+                    <Text style={styles.boubleQuantity}>40</Text>
+                    <Text style={styles.boubleText}>Objetivos Concluidos</Text>
+              </View>
+              
+              <View style={styles.boubleRank2}>
+                    <Text style={styles.boubleTitle}>2°</Text>
+                    <Text style={styles.boubleQuantity}>40</Text>
+                    <Text style={styles.boubleText}>Objetivos Concluidos</Text>
+              </View>
+
+              <View style={styles.boubleRank3}>
+                    <Text style={styles.boubleTitle}>3°</Text>
+                    <Text style={styles.boubleQuantity}>40</Text>
+                    <Text style={styles.boubleText}>Objetivos Concluidos</Text>
+              </View>
+
+              <View style={styles.boubleRank4}>
+                    <Text style={styles.boubleTitle}>4°</Text>
+                    <Text style={styles.boubleQuantity}>40</Text>
+                    <Text style={styles.boubleText}>Objetivos Concluidos</Text>
+              </View>
+
             </View>
         </View>
     )
@@ -36,18 +55,21 @@ const styles = StyleSheet.create({
       color: '#8404D9',
     },
     firstContainer: {
-      height: 50,
-      width: '90%',
-      backgroundColor: '#8404D9',
-      borderRadius: 50,
-      flexDirection: "column",
-      marginLeft: "5%",
-      marginTop: 10
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignContent: "center",
+      width: 360,
+      height: 70,
+      paddingTop: 5,
+      marginTop: 40,
+      backgroundColor: "#8404D9",
+      borderRadius: 50
     },
-    image: {
-      flex: 1,
-      resizeMode: "cover",
-      justifyContent: "center"
+    imgRank1: {
+      width: 60,
+      height: 60,
+      marginLeft: 1,
+      borderRadius: 50
     },
     name: {
       fontSize: 15,
@@ -70,6 +92,77 @@ const styles = StyleSheet.create({
           justifyContent: 'center',
           color: 'white',
           marginLeft: '20%',
+      },
+      bouble: {
+        width: 400,
+        height: 400,
+        alignContent: "center",
+        justifyContent: "center",
+        flexWrap: "wrap",
+        flexDirection: "row",
+        marginTop: 50,
+        padding: 50,
+        transform: [{ rotate: "45deg" }]
+      },
+      boubleTitle: {
+        color: "white",
+        fontSize: 30,
+        fontWeight: "900",
+        textAlign: "center"
+      },
+      boubleQuantity:{
+        color: "white",
+        fontSize: 18,
+        fontWeight: "700",
+        textAlign: "center"
+      },
+      boubleText:{
+        width: "80%",
+        marginLeft: 14,
+        color: "white",
+        fontSize: 16,
+        fontWeight: "200",
+        textAlign: "center"
+      },
+      boubleRank1:{
+        justifyContent: "center",
+        alignContent: "center",
+        width: 140,
+        height: 140,
+        backgroundColor: "#00D65F",
+        borderRadius: 70,
+        marginRight: 15,
+        marginBottom: 15,
+        transform: [{ rotate: "-45deg" }]
+      },
+      boubleRank2:{
+        justifyContent: "center",
+        alignContent: "center",
+        width: 140,
+        height: 140,
+        backgroundColor: "#F9E800",
+        borderRadius: 70,
+        transform: [{ rotate: "-45deg" }]
+      },
+      boubleRank3:{
+        justifyContent: "center",
+        alignContent: "center",
+        width: 140,
+        height: 140,
+        backgroundColor: "#00C2EE",
+        borderRadius: 70,
+        marginRight: 15,
+        marginBottom: 15,
+        transform: [{ rotate: "-45deg" }]
+      },
+      boubleRank4:{
+        justifyContent: "center",
+        alignContent: "center",
+        width: 140,
+        height: 140,
+        backgroundColor: "#FF271C",
+        borderRadius: 70,
+        transform: [{ rotate: "-45deg" }]
       }
   });
 
