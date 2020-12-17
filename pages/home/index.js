@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 const Home = () => {
 
     const [usuario, setUsuario] = useState['']
+
+    
     return(
         <View>
             <Text style={styles.title}>RANKING GERAL</Text>
