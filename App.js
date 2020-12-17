@@ -10,6 +10,7 @@ import Home from "./pages/home"
 import Timeline from "./pages/timeline"
 import Turma from "./pages/turma"
 import Usuarios from "./pages/usuarios"
+import Alunos from "./pages/Aluno"
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,7 +32,9 @@ const Autenticado = ({navigation}) => {
       <Drawer.Screen name="Feed" component={Feed} />
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="Home" component={Home}/>
+      <Drawer.Screen name="Alunos" component={Alunos}/>
       <Drawer.Screen name="Usuarios" component={Usuarios}/>
+      <Drawer.Screen name="Turma" component={Turma} />
       {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
       
     </Drawer.Navigator>
@@ -122,7 +125,8 @@ export default function App( {navigation} ) {
         <Drawer.Screen name="Home" component={Home}/>
         <Drawer.Screen name="Logout" component={Logout}/>
         <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{ drawerLabel: "Logado com Footer" }} />
-        {/* <Drawer.Screen name="Timeline" component={Timeline} /> */}
+        <Drawer.Screen name="Turma" component={Turma} />
+        <Drawer.Screen name="Alunos" component={Alunos}/> 
       </Drawer.Navigator>
     </NavigationContainer>
   );
