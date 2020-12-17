@@ -24,19 +24,19 @@ const Home = () => {
               
               <View style={styles.boubleRank2}>
                     <Text style={styles.boubleTitle}>2°</Text>
-                    <Text style={styles.boubleQuantity}>40</Text>
+                    <Text style={styles.boubleQuantity}>30</Text>
                     <Text style={styles.boubleText}>Objetivos Concluidos</Text>
               </View>
 
               <View style={styles.boubleRank3}>
                     <Text style={styles.boubleTitle}>3°</Text>
-                    <Text style={styles.boubleQuantity}>40</Text>
+                    <Text style={styles.boubleQuantity}>20</Text>
                     <Text style={styles.boubleText}>Objetivos Concluidos</Text>
               </View>
 
               <View style={styles.boubleRank4}>
                     <Text style={styles.boubleTitle}>4°</Text>
-                    <Text style={styles.boubleQuantity}>40</Text>
+                    <Text style={styles.boubleQuantity}>10</Text>
                     <Text style={styles.boubleText}>Objetivos Concluidos</Text>
               </View>
 
@@ -72,7 +72,9 @@ const styles = StyleSheet.create({
       borderRadius: 50
     },
     name: {
+      
       fontSize: 15,
+      
       textAlign: "center",
       justifyContent: 'center',
       fontFamily: 'Arial Black',
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
     imagemCard: {
         width: 20,
         height: 25,
-        borderRadius: 5,
+        borderRadius: 8,
       },
       turma: {
           fontFamily: 'Arial',

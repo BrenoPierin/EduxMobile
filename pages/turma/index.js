@@ -1,102 +1,69 @@
-import React from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
-
-const DATA = [
-    {
-      id: '1',
-      title: 'Nome 1',
-    },
-    {
-      id: '2',
-      title: 'Nome 2',
-    },
-    {
-      id: '3',
-      title: 'Nome 3',
-    },
-  ];
-
-  const Item = ({ title }) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
+import React, { useEffect, useState } from 'react'
+import { Text, View, StyleSheet } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler';
+import ItemTurma from '../../components/itemTurma';
 
 const Turma = () => {
 
-    const renderItem = ({ item }) => (
-        <Item title={item.title} />
-      );
-    
-    return(
+    const [turmas, setTurmas] = useState([]);
+
+    useEffect(() => {
+        listarTurmas();
+    }, [])
+
+    const listarTurmas = () => {
+        fetch('http://192.168.7.21:5000/api/turma')
+            .then(response => response.json())
+            .then(dados => {
+                setTurmas(dados);
+                console.log(dados);
+            })
+            .catch(err => console.error(err));
+    }
+
+    const renderItem = ({ item }) => {
+        return (
+            <ItemTurma
+                descricao={item.descricao}
+            />
+        )
+    }
+
+
+    return (
         <View>
-            <Text style={styles.text}>Turma</Text>
-
-            <div className="container">
-                <div className="card">
-                    <Image
-                        style={styles.logo}
-                        source={{
-                        uri:
-                            'https://i1.wp.com/socientifica.com.br/wp-content/uploads/2019/05/image_7150_1e-Hubble-Legacy-Field.jpg?fit=1920%2C1773&ssl=1',
-                        }}
-                    />
-                    <h2 className="tituloCard">2S - 2°DM</h2>
-                    <h2 className="tituloCard">Desenvolvimento de Sistemas</h2>
-                    <div className="divAlunos">
-                        <h3>Alunos</h3>  
-                        <FlatList
-                            style={styles.margemE}
-                            data={DATA}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.id}
-                        />
-                    </div>          
-                </div>
-            </div>
-
-
+            <Text style={styles.Titulo}>Turmas</Text>
+            <FlatList
+                data={turmas}
+                renderItem={renderItem}
+            />
         </View>
-        
-
     )
 }
-
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      flexDirection: "column"
+        flex: 1,
+        backgroundColor: '#F7F7F7',
+        marginTop: 60
     },
-    image: {
-      flex: 1,
-      resizeMode: "cover",
-      justifyContent: "center"
+    listItem: {
+        margin: 10,
+        padding: 10,
+        backgroundColor: "#FFF",
+        width: "80%",
+        flex: 1,
+        alignSelf: "center",
+        flexDirection: "row",
+        borderRadius: 5
     },
-    text: {
-      color: "#9200D6",
-      fontSize: 10,
-      fontWeight: "bold",
-      textAlign: "center",
-      marginTop: 5,
-    //   backgroundColor: "#D6D6D6"
-    },
-    imagemCard: {
-        width: 20,
-        height: 20,
-        borderRadius: 5,
-    },
-    margemE: {
-        marginLeft: 10,
-        marginTop: 10,
-    },
-    logo: {
-        width: '90%',
-        height: 100,
-        margin: 'auto',
-        marginBottom: 5,
-        borderRadius: 5,
-        
-      },
-  });
+
+    Titulo: {
+        color: '#9200D6',
+        fontWeight: 'bold',
+        fontSize: 27,
+        alignSelf: "center"
+    }
+
+});
 
 export default Turma;
