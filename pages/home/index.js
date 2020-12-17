@@ -1,18 +1,18 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 const Home = () => {
 
-    const imagem = { uri: "https://reactjs.org/logo-og.png" };
-
+    const [usuario, setUsuario] = useState['']
     return(
         <View>
             <Text style={styles.title}>RANKING GERAL</Text>
             
             <View style={styles.firstContainer}>
-
-                <Text style={styles.name}>Breno Silva Pierin</Text>
-                <Text style={styles.turma}>2° Deselvolvimento de sistemas</Text>
-                <Image style={styles.imgRank1} source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png' }} />            
+                <Image style={styles.imgProfile} source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png' }} />            
+                <View style={styles.textInformation}>
+                  <Text style={styles.name}>Breno</Text>
+                  <Text style={styles.turma}>2° Deselvolvimento de sistemas</Text>
+                </View>
             </View>
 
             <View style={styles.bouble}>
@@ -56,20 +56,25 @@ const styles = StyleSheet.create({
     },
     firstContainer: {
       flexDirection: "row",
-      justifyContent: "flex-start",
+      justifyContent: "flex-end",
       alignContent: "center",
       width: 360,
       height: 70,
       paddingTop: 5,
       marginTop: 40,
       backgroundColor: "#8404D9",
-      borderRadius: 50
+      borderRadius: 50,
+      marginLeft: '7%'
     },
-    imgRank1: {
+    imgProfile: {
       width: 60,
       height: 60,
       marginLeft: 1,
       borderRadius: 50
+    },
+    textInformation: {
+      flexWrap: 'wrap',
+      marginRight: '30%'
     },
     name: {
       fontSize: 15,
@@ -87,11 +92,11 @@ const styles = StyleSheet.create({
       },
       turma: {
           fontFamily: 'Arial',
-          fontSize: 10,
+          fontSize: 13,
           textAlign: "center",
           justifyContent: 'center',
           color: 'white',
-          marginLeft: '20%',
+          marginLeft: '20%'
       },
       bouble: {
         width: 400,
