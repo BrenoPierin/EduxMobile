@@ -1,9 +1,22 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
+import jwt_decode from "jwt-decode";
+import {url} from '../../utils/constants'
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Home = () => {
 
-    const [usuario, setUsuario] = useState['']
+    const [usuario, setUsuario] = useState("");
 
+    useEffect(()=>{
+      AsyncStorage.getItem('@jwt').then(data => {
+          var token = data;
+          var decoded = jwt_decode(data);
+          setUsuario(decoded.nameid);
+          console.log(usuario)
+      });
+    }, [])
     
     return(
         <View>
@@ -12,7 +25,7 @@ const Home = () => {
             <View style={styles.firstContainer}>
                 <Image style={styles.imgProfile} source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png' }} />            
                 <View style={styles.textInformation}>
-                  <Text style={styles.name}>Breno</Text>
+                  <Text style={styles.name}>{usuario}</Text>
                   <Text style={styles.turma}>2° Deselvolvimento de sistemas</Text>
                 </View>
             </View>

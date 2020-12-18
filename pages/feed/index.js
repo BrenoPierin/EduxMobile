@@ -28,7 +28,6 @@ const Feed = () => {
           var decoded = jwt_decode(data);
           setIdUsuario(decoded.jti);
           setToken(token)
-
       });
     }, [])
 
@@ -58,25 +57,24 @@ const Feed = () => {
     return blob;
     }
 
-    const axios = require('axios').default;
-
-
     const Enviar = () => {
 
       const postContent = {
         texto : texto,
         imagem : imagem,
-        idUsuario : 1
+        idUsuario : 3
       }
 
       fetch(`${url}Dicas`, {
         method : 'POST',
         body : JSON.stringify(postContent),
-        headers : { 'content-Type' : 'application/json' }        
+        headers : { 'content-Type' : 'application/json',
+                    'authorization' : 'Bearer ' + token}      
       })
       .then((response) => {
+        response.JSON()
         console.log(response)
-        console.log(response.body)                                
+        console.log(response.body)         
         limparCampo();
       })
       .catch((err) => console.error(err))
@@ -122,6 +120,7 @@ const Feed = () => {
       var blob = b64toBlob(realData, contentType);
 
       console.log(blob);
+      console.log(realData);
 
       setImagem(realData);
 
