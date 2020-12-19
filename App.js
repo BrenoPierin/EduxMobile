@@ -52,7 +52,7 @@ const BottomNavigator = () => {
             iconName = focused ? 'ios-home' : 'ios-home';
           } else if (route.name === 'Feed') {
             iconName = focused ? 'ios-list-box' : 'ios-list';
-          } else if (route.name === 'Usuarios') {
+          } else if (route.name === 'Turma') {
             iconName = focused ? 'ios-contacts' : 'ios-contacts';
           }
 
@@ -71,7 +71,7 @@ const BottomNavigator = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Feed" component={Feed} />
-      <Tab.Screen name="Usuarios" component={Usuarios} />
+      <Tab.Screen name="Turma" component={Turma} />
     </Tab.Navigator>
   )
 }

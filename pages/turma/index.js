@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import ItemTurma from '../../components/itemTurma';
+import {url} from '../../utils/constants'
 
 const Turma = () => {
 
@@ -12,11 +13,11 @@ const Turma = () => {
     }, [])
 
     const listarTurmas = () => {
-        fetch('http://192.168.7.21:5000/api/turma')
+        fetch(url + 'turma')
             .then(response => response.json())
             .then(dados => {
                 setTurmas(dados);
-                console.log(dados);
+                console.log(dados.data);
             })
             .catch(err => console.error(err));
     }
@@ -24,7 +25,7 @@ const Turma = () => {
     const renderItem = ({ item }) => {
         return (
             <ItemTurma
-                descricao={item.descricao}
+                descricao={item.turmas.descricao}
             />
         )
     }

@@ -12,8 +12,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Feed = () => {
     const [idUsuario, setIdUsuario] = useState(0);
+    const [idDica, setIdDica] = useState(0);
     const [texto, setTexto] = useState('');
-    const [imagem, setImagem] = useState({});
+    const [imagem, setImagem] = useState(null);
     const [token, setToken] = useState('')
     const [usuarios, setUsuario] = useState([])
     const [id, setId] = useState(0);
@@ -29,101 +30,83 @@ const Feed = () => {
           setIdUsuario(decoded.jti);
           setToken(token)
       });
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      })()
     }, [])
 
     // Parte do Breno https://docs.expo.io/tutorial/image-picker/ ---------------------------------------------------------------------------------------------
-    
-    function b64toBlob(b64Data, contentType, sliceSize) {
-      contentType = contentType || '';
-      sliceSize = sliceSize || 512;
-
-      var byteCharacters = atob(b64Data);
-      var byteArrays = [];
-
-      for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-          var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-          var byteNumbers = new Array(slice.length);
-          for (var i = 0; i < slice.length; i++) {
-              byteNumbers[i] = slice.charCodeAt(i);
-          }
-
-          var byteArray = new Uint8Array(byteNumbers);
-
-          byteArrays.push(byteArray);
-      }
-
-      var blob = new Blob(byteArrays, {type: contentType});
-    return blob;
-    }
-
     const Enviar = () => {
 
-      const postContent = {
+      const dica = {
         texto : texto,
-        imagem : imagem,
-        idUsuario : 3
-      }
+        idUsuario : 1,
+        imagem : imagem
+    }
 
-      fetch(`${url}Dicas`, {
-        method : 'POST',
-        body : JSON.stringify(postContent),
-        headers : { 'content-Type' : 'application/json',
-                    'authorization' : 'Bearer ' + token}      
-      })
-      .then((response) => {
-        response.JSON()
-        console.log(response)
-        console.log(response.body)         
-        limparCampo();
-      })
-      .catch((err) => console.error(err))
+    const method = (idDica === 0 ? 'POST' : 'PUT');
+    const urlRequest = (idDica === 0 ? `${url}Dica` :  `${url}Dica/${idDica}`);
+    
+     fetch(urlRequest ,{
+         method : method,
+         body : JSON.stringify(dica),
+         headers : {
+            'content-type' : 'application/json',
+            'authorization' : 'Bearer ' + token
+         }
+     }) 
+     .then(response => response.json())
+     .then(dados => {
+         alert('Dica cadastrada');
+         console.log(dados)
+
+         listarPost();
+
+         limparCampo()
+     })
     }
 
     const limparCampo = () => {
       setTexto('');
-      setUrlImagem({});
+      setUrlImagem(null);
     }
     
-    let openImagePickerAsync = async () => {
-      let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-      
-      if (permissionResult.granted === false) {
-        alert("Permission to access camera roll is required!");
-        return;
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        setImagem(result.uri);
+        console.log(imagem)
       }
-      
-      let pickerResult = await ImagePicker.launchImageLibraryAsync();
-      
-      if (pickerResult.cancelled === true) {
-        return;
-      }
-      
 
-      // <form id="myAwesomeForm" method="post" action="/php-code-that-handles-fileupload.php">
-      //     <input type="text" id="filename" name="filename" />
-      //     <input type="submit" id="submitButton" name="submitButton" />
-      // </form>
-      
-      //     // Get the form element withot jQuery
-      // var form = document.getElementById("myAwesomeForm");
-      
-      var ImageURL = pickerResult.uri ;
-      // Split the base64 string in data and contentType
-      var block = ImageURL.split(";");
-      // Get the content type of the image
-      var contentType = block[0].split(":")[1];// In this case "image/gif"
-      // get the real base64 content of the file
-      var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...."
-      
-      // Convert it to a blob to upload
-      var blob = b64toBlob(realData, contentType);
+      fetch(url + 'Upload', {
 
-      console.log(blob);
-      console.log(realData);
+        method : 'POST',
+        body : imagem, 
+        headers : {
+            'authorization' : 'Bearer ' + localStorage.getItem('token-edux')
+        }
 
-      setImagem(realData);
-
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        setUrlImagem(data.url);
+    })
+    .catch(err => console.log(err));
+      
     };
 
     // Parte da Listagem ---------------------------------------------------------------------------------------------------
@@ -181,9 +164,10 @@ const Feed = () => {
 
         <TouchableOpacity
           style={styles.buttonImg}
-          onPress={openImagePickerAsync}
+          onPress={pickImage}
         >
           <Text style={styles.textImg}>Selecionar imagem</Text>
+          {imagem && <Image source={{ uri: imagem }} style={{ width: '65%', height: 160 }} />}
         </TouchableOpacity>
 
         <TouchableOpacity
