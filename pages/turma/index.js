@@ -1,70 +1,96 @@
-import React, { useEffect, useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler';
-import ItemTurma from '../../components/itemTurma';
-import {url} from '../../utils/constants'
+import React, {useState, useEffect} from 'react';
+import {Text, View, FlatList, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
+import {itemTurma} from '../../components/ItemTurma/itemturma';
+import { url } from '../../utils/constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const Turma = () => {
+const Item = ({descricao, idCurso}) => (
+  <View style={styles.item}>
+    <Text style={styles.titleT}>Turma/Semestre</Text>
+    <Text style={styles.title}>{descricao}  </Text>
+    <Text style={styles.titleT}>Curso</Text>
+    <Text style={styles.title}>{idCurso}</Text>
+  </View>
+);
 
-    const [turmas, setTurmas] = useState([]);
+
+  const Turma = () => {
+    const [turma, setTurmas] = useState([]);
 
     useEffect(() => {
         listarTurmas();
-    }, [])
+    },[])
 
     const listarTurmas = () => {
-        fetch(url + 'turma')
-            .then(response => response.json())
-            .then(dados => {
-                setTurmas(dados);
-                console.log(dados.data);
-            })
-            .catch(err => console.error(err));
-    }
+        fetch(`${url}/Turma`)
+        .then(data => console.log(data))
+        .then(response => response.json())
+        .then(dados => {
+            setTurmas(dados.data);
+            console.log(dados.data);
+          
+        })
+        .catch(err => console.error(err));
+      }
+  
+    const renderItem = ({ item }) => (   
+        <Item
+         descricao={item.descricao} 
+         idCurso={item.curso.titulo} />
+    );  
 
-    const renderItem = ({ item }) => {
-        return (
-            <ItemTurma
-                descricao={item.turmas.descricao}
-            />
-        )
-    }
-
-
-    return (
-        <View>
-            <Text style={styles.Titulo}>Turmas</Text>
-            <FlatList
-                data={turmas}
+      return(
+          <View  style={styles.container} >
+            <ScrollView>
+            <Text style={styles.titulo}>Turmas</Text>
+            
+           <FlatList 
+                data={turma}
+                keyExtractor={item => item.id}
                 renderItem={renderItem}
             />
-        </View>
-    )
-}
-const styles = StyleSheet.create({
+            </ScrollView>
+          </View>
+      )
+  }
+ 
+  const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#F7F7F7',
-        marginTop: 60
+      alignItems: "center",
+      flex: 1,
+      marginTop: StatusBar.currentHeight || 0,
     },
-    listItem: {
-        margin: 10,
-        padding: 10,
-        backgroundColor: "#FFF",
-        width: "80%",
-        flex: 1,
-        alignSelf: "center",
-        flexDirection: "row",
-        borderRadius: 5
+    item: {
+      padding: 20,
+      backgroundColor: "gray",
+      marginVertical: 8,
+      marginHorizontal: 16,
+      borderRadius: 11,
     },
+    title: {
+      fontSize: 15,
+      padding: 10,
+      color: "white",
+      fontWeight:"bold",
+      display: "flex"
+    },
+    titulo: {
+      fontSize: 50,
+      alignItems: "center",
+      marginVertical: 8,
+      color: "purple",
+      fontWeight:"bold",
+      padding: 15,
+      display: "flex",
+    },
+    titleT: {
+      fontSize: 15,
+      padding: 10,
+      color: "black",
+      fontWeight:"bold",
+      display: "flex"
+    },
+  });
 
-    Titulo: {
-        color: '#9200D6',
-        fontWeight: 'bold',
-        fontSize: 27,
-        alignSelf: "center"
-    }
-
-});
-
-export default Turma;
+  export default Turma;

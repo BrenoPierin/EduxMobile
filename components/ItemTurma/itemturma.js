@@ -10,26 +10,27 @@ const styles = StyleSheet.create({
     listItem:{
       margin:10,
       padding:10,
-      backgroundColor:"#00D65F",
+      backgroundColor:"black",
       width:"80%",
       flex:1,
       alignSelf:"center",
       flexDirection:"row",
-      borderRadius:12
+      borderRadius:5
     }
-
   });
 
-const ItemTurma = (turma) => {
-    const {descricao} = turma;
+const itemTurma = (turma) => {
+    const {descricao, curso} = turma;
 
     return (
         <View style={styles.listItem}>
+            
             <View style={{alignItems:"center",flex:1}}>
                 <Text style={{fontWeight:"bold"}}>{descricao}</Text>
+                <Text style={{fontWeight:"bold"}}>{curso}</Text>
             </View>
         </View>
     )
 }
 
-export default ItemTurma;
+export default itemTurma;

@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import jwt_decode from "jwt-decode";
-import {url} from '../../utils/constants'
+import {url} from '../../utils/constants/index'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
